@@ -1,16 +1,12 @@
 <template>
   <div>
       <div class="row">
-          <h2 v-if="!editing" class="col"> {{todo.title}}</h2>
-              <input v-else v-bind:value="todoTitle" @change="TodoChange" type="text" class=" col form-control">
-               <md-button @click="updateTodoid(todo)"  style="height:30px;width:30px" class="md-fab md-plain">
-        {{editing?'✅':'✏️'}}
-      </md-button>
+          <h2  class="col"> {{todo.market_cap_rank}} {{todo.id}} {{todo.current_price}} {{todo.market_cap_change_24h}}</h2>
             <md-button @click="deleteTodo(todo.id)" style="height:30px;width:30px" class="md-fab md-primary">
         <md-icon>❌</md-icon>
         
       </md-button>
-          
+    
       </div>
   </div>
 </template>
@@ -19,14 +15,14 @@
 import { mapActions } from 'vuex'
 export default {
  props:{
-     todo:{}
+     todo:{},
  },
  data(){
     return{
         todoTitle:"",
-        editing: false
     }
  },
+
  methods:{
      ...mapActions(['deleteTodo','updateTodo']),
      todoChange(e){
