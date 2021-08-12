@@ -23,6 +23,7 @@ export default new Vuex.Store({
         },
         delete_todo(state,id){
             state.todos = state.todos.filter((todo) => todo.id != id);
+            state.todos = state.todos.filter((todo) => todo.id != console.log(id));
         },
         update_todo(state,todo){
             let index = state.todos.findIndex((t) => t.id == todo.id);

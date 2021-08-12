@@ -6,7 +6,12 @@
         <md-icon>❌</md-icon>
         
       </md-button>
-    
+          <md-button @click="deleteTodo(todo.id)" style="height:30px;width:30px" class="md-fab md-primary">
+        <md-icon>➡️</md-icon>
+        
+      </md-button>
+    <input v-model="name" type="text">
+     <button @click="persist">Save</button>
       </div>
   </div>
 </template>
@@ -20,16 +25,20 @@ export default {
  data(){
     return{
         todoTitle:"",
+        name:this.todo.id,
     }
+    
  },
+  mounted() {
+    if(localStorage.name) this.name = localStorage.name;
+  },
 
  methods:{
-     ...mapActions(['deleteTodo','updateTodo']),
+     ...mapActions(['deleteTodo']),
      todoChange(e){
  this.todoTitle = e.target.value
      },
      updateTodoid(todo){
-       this.editing = this.editing == true ? false : true;
       if (this.editing) {
         this.todoTitle = todo.title;
         this.updateTodo(todo);
@@ -37,7 +46,12 @@ export default {
         todo.title = this.todoText;
         
       }
-     }
+     },
+      persist() {
+      localStorage.name = this.name;
+      console.log('now pretend I did more stuff...');
+    }
+     
  }
 }
 </script>
