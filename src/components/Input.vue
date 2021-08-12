@@ -9,6 +9,9 @@
 import {mapActions} from 'vuex'
 import {v1} from 'uuid'
 export default {
+  props:{
+     todo:{},
+ },
   data(){
     return{
       todoTitle:""

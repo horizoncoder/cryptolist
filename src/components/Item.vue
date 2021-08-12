@@ -6,14 +6,23 @@
         <md-icon>❌</md-icon>
         
       </md-button>
-          <md-button @click="deleteTodo(todo.id)" style="height:30px;width:30px" class="md-fab md-primary">
+          <md-button @click="addCat" style="height:30px;width:30px" class="md-fab md-primary">
         <md-icon>➡️</md-icon>
         
       </md-button>
-    <input v-model="name" type="text">
-     <button @click="persist">Save</button>
       </div>
+      <div id="app">
+  <h2>favorites</h2>
+  <div v-for="(cat,n) in cats" :key="cat.n">
+    <p>
+    <span class="cat">{{cat}}</span> <button @click="removeCat(n)">Remove</button>
+    </p>
   </div>
+  
+  
+</div>
+  </div>
+  
 </template>
 
 <script>
@@ -25,14 +34,12 @@ export default {
  data(){
     return{
         todoTitle:"",
-        name:this.todo.id,
+          cats:[],
+         newCat:null
     }
     
  },
-  mounted() {
-    if(localStorage.name) this.name = localStorage.name;
-  },
-
+ 
  methods:{
      ...mapActions(['deleteTodo']),
      todoChange(e){
@@ -47,11 +54,20 @@ export default {
         
       }
      },
-      persist() {
-      localStorage.name = this.name;
-      console.log('now pretend I did more stuff...');
+      addCat() {
+      // ensure they actually typed something
+      this.cats.push(this.todo.id);
+      this.newCat = '';
+      this.saveCats();
+    },
+    removeCat(x) {
+      this.cats.splice(x,1);
+      this.saveCats();
+    },
+    saveCats() {
+      let parsed = JSON.stringify(this.cats);
+      localStorage.setItem('cats', parsed);
     }
-     
  }
 }
 </script>

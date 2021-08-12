@@ -7,7 +7,7 @@ Vue.use(VueAxios)
 export default new Vuex.Store({
     state:{
         items: [],
-        todos:[ ],
+        todos:[],
        
     },
     getters:{
