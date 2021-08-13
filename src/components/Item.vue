@@ -6,12 +6,12 @@
         <md-icon>❌</md-icon>
         
       </md-button>
-          <md-button @click="addCat" style="height:30px;width:30px" class="md-fab md-primary">
+          <md-button @click="addCat($event.target)" style="height:30px;width:30px" class="md-fab md-primary">
         <md-icon>➡️</md-icon>
         
       </md-button>
       </div>
-      <div id="app">
+      <div>
   <h2>favorites</h2>
   <div v-for="(cat,n) in cats" :key="cat.n">
     <p>
@@ -21,25 +21,28 @@
   
   
 </div>
+<div v-for="todo in allTodos" :key="todo.id">
+      <List :todo='todo'/>
+  </div>
   </div>
   
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+
 export default {
  props:{
      todo:{},
  },
  data(){
     return{
-        todoTitle:"",
           cats:[],
          newCat:null
     }
     
  },
- 
+
  methods:{
      ...mapActions(['deleteTodo']),
      todoChange(e){
@@ -54,9 +57,11 @@ export default {
         
       }
      },
-      addCat() {
+      addCat(e) {
       // ensure they actually typed something
-      this.cats.push(this.todo.id);
+      console.log(e)
+        console.log(this.todo)
+      this.cats.push(this.todo.id + " "  + this.todo.market_cap_rank);
       this.newCat = '';
       this.saveCats();
     },
