@@ -61,6 +61,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { mapState } from 'vuex';
+// import {axios} from 'axios'
 // import lodash from 'lodash'
 // import Item from './Item.vue'
 export default {
@@ -71,6 +72,7 @@ export default {
         return{
                cats:[],
                 indx: [],
+                info: null,
                 newCat:null
         }
     },
@@ -80,12 +82,9 @@ components:{
     // Item
 },
    mounted () {
-console.log(this.allTodos)
+  
         this.$store.dispatch('loadItems')
-        var one = 'Hello,';
-var two = 'how are you?';
-var joined = one + " " + two;
-console.log(joined)
+  
           if(localStorage.getItem('cats')) {
       try {
         this.cats = JSON.parse(localStorage.getItem('cats'));
@@ -93,6 +92,19 @@ console.log(joined)
         localStorage.removeItem('cats');
       }
     }
+    let test = JSON.parse(localStorage.getItem('cats'))
+   console.log(test);
+for (let value of test) {
+  console.log(value.id);
+    fetch(`https://my-json-server.typicode.com/horizoncoder/cryptojson/posts/${value.id}`)
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+    this.cats.push(data);
+  });
+}
     },
 computed:{
     ...mapGetters(['allTodos','items']),
@@ -101,9 +113,26 @@ computed:{
 },
 methods:{
       addCat(todo) {
-         console.log(todo)
       this.cats.push(todo);
+     console.log(typeof(todo))
+     console.log(todo)
+   
       this.saveCats();
+       let test = JSON.parse(localStorage.getItem('cats'))
+   console.log(test);
+
+// for (let value of test) {
+//   console.log(value.id);
+//     fetch(`https://my-json-server.typicode.com/horizoncoder/cryptojson/posts/${value.id}`)
+//   .then((response) => {
+//     return response.json();
+//   })
+//   .then((data) => {
+//     console.log(data);
+//     this.cats.push(data);
+//   });
+// }
+ 
     },
     removeCat(x) {
       this.cats.splice(x,1);
@@ -113,6 +142,7 @@ methods:{
       let parsed = JSON.stringify(this.cats);
       localStorage.setItem('cats', parsed);
     }
+    
  }
 }
 </script>
